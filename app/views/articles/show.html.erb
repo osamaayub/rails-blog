@@ -1,0 +1,96 @@
+<div class="container">
+  <div class="jumbotron center">
+    <h1> <%= @article.title %> </h1>
+    <hr>
+    <!-- Add the average out of total rating pluralise here. --> 
+    <p>
+      <strong>Average Rating:</strong>
+      <div class="rated" data-score="<%= @article.average_rating %>"></div>
+      <br>
+      ( &nbsp 
+      <%= pluralize(@article.total_rating.to_f, "customer review") %> 
+      &nbsp ) 
+    </p> 
+    <quote>
+      <strong> <%= @article.description %> </strong>
+    </quote>
+    <hr>
+    <h3>
+      By 
+      <strong>
+        <%= @article.author %>
+      </strong>
+    </h3>
+    <%= @article.updated_at.strftime("%d %B %Y") %>
+  </div>  
+
+  
+  <div class="row">
+    <div class="col-md-12">
+
+      <div class="img-container">    
+        <%= image_tag(@article.image_url, class: "img-responsive") %>
+      </div>
+    </div>
+  </div>
+  <hr>
+
+  <article> <%= @article.text %> </article>
+  <hr>
+  <p>
+    First posted by 
+    <strong><%= @article.author %></strong>
+    on 
+    <strong><%= @article.created_at.strftime("%d %b %Y") %></strong> 
+    at 
+    <strong><%= @article.created_at.strftime("%H:%M") %></strong>.
+  </p>
+  <p>
+    Last updated on 
+    <strong><%= @article.updated_at.strftime("%d %b %Y") %></strong>
+    at 
+    <strong><%= @article.updated_at.strftime("%H:%M") %></strong>.
+  </p>
+  <hr>
+
+  <div class="center">  
+    <%= link_to 'Edit', edit_article_path(@article), class: "btn btn-primary" %> |
+    <%= link_to 'Back', articles_path, class: "btn btn-info"  %>   
+  </div> 
+  <hr>
+
+  <div class="container">
+
+    <h2>Comments</h2>
+
+    <!-- Raty average rating here for overall-->
+    <p>
+      Average Rating: 
+      <div class="rated" data-score="<%= @article.average_rating %>">
+      </div>
+    </p>
+
+    <div class="page_info">
+      <%= page_entries_info @comments %>
+    </div>
+
+    <%= will_paginate @comments %>  
+
+    <%= render @comments %>
+
+    <%= will_paginate @comments%>
+  
+  </div>
+  
+  <%= render 'comments/form' %>  
+
+  <hr>
+  <div class="center">  
+    <%= link_to 'Edit', edit_article_path(@article), class: "btn btn-primary" %>   |   
+    <%= link_to 'Back', articles_path, class: "btn btn-info"  %>   
+  </div> 
+  <hr>
+
+</div> 
+
+ 

@@ -1,0 +1,69 @@
+<div class="container">
+  
+  <div class="jumbotron center">
+    <h1>All Articles of <strong>Jason's</strong> Blog</h1>
+  </div>
+  <hr>
+
+  <% if signed_in? && current_user.author? %>
+    <div class="center"> 
+      <%= link_to 'New Article', new_article_path,
+                                  class: "btn btn-success" %>
+    </div>
+  <% end %>  
+
+  <div class="page_info">
+    <%= page_entries_info @articles %>
+  </div>
+
+  <hr>
+  <%= will_paginate @articles %>
+        
+  <% @articles.each do |article| %>
+    <div class="row"> 
+      <div class="col-md-4">
+        <div class="img-container">    
+          <%= image_tag(article.image_url, class: "img-responsive") %>
+        </div>
+        <%article.text %>        
+      </div>
+      <div class="col-md-8">
+        
+        <h2><%= article.title %></h2>
+        <!-- Raty average rating here for overall-->
+        <p>
+          <strong>Average Rating:</strong>
+          <div class="rated" data-score="<%= article.average_rating %>">
+          </div>
+          <br>
+          ( &nbsp 
+          <%= pluralize(article.total_rating.to_f, "customer review") %> 
+          &nbsp ) 
+        </p>
+        <div><%= article.description %></div>
+        <hr>
+        <div class="center">
+          <%= link_to 'Read More', article, class: "btn btn-success" %>
+          <%= link_to 'Edit', edit_article_path(article), 
+              class: "btn btn-primary"  %>
+          <% if signed_in? && current_user.admin? %>
+            <%= link_to 'Destroy', article, method: :delete, 
+                data: { confirm: 'Are you sure?'},
+                class: "btn btn-danger" %>
+          <% end %>      
+        </div>      
+      </div>
+    </div>
+    <hr> 
+  <% end %>    
+
+  <%= will_paginate @articles %>
+
+  <% if signed_in? && current_user.author? %>
+    <div class="center"> 
+      <%= link_to 'New Article', new_article_path,
+                                  class: "btn btn-success" %>
+    </div>
+  <% end %>    
+
+</div>   
